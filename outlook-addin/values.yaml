@@ -19,9 +19,9 @@ config:
   DEFAULT_NEXTCLOUD_URL: ""
   # Comma-separated feature codes to disable (e.g. "0,1,2")
   FEATURES_CODES_TO_REMOVE: ""
-  # Authentication type: naa, naa_silent, or legacy_exchange
+  # Authentication type: naa_silent, or legacy_exchange
   MS_AUTH_TYPE: "legacy_exchange"
-  # Azure App ID — required if MS_AUTH_TYPE is naa or naa_silent
+  # Azure App ID — required if MS_AUTH_TYPE is naa_silent
   MS_APP_ID: ""
   # Azure Tenant ID — required for non single-tenant apps
   MS_TENANT_ID: ""

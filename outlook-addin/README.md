@@ -17,7 +17,7 @@ Create a file called `my-values.yaml` with your configuration:
 config:
   BASE_URL: https://outlook.example.com
   DEFAULT_NEXTCLOUD_URL: https://nextcloud.example.com
-  MS_AUTH_TYPE: naa
+  MS_AUTH_TYPE: naa_silent
   MS_APP_ID: your-azure-app-id
   MS_TENANT_ID: your-azure-tenant-id
 ```
