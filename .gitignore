@@ -1,0 +1,23 @@
+# Helm
+*.tgz
+charts/
+
+# Values overrides (local/personal)
+my-values.yaml
+**/my-values.yaml
+
+# Env
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+my_values.yaml
