@@ -1,23 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "sendent-msteams.fullname" . }}-config
+  name: {{ include "sendent-msteams.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "sendent-msteams.name" . }}
+    {{- include "sendent-msteams.labels" . | nindent 4 }}
 data:
-  BASE_URL: {{ .Values.config.baseUrl | quote }}
-  MSAPP_TYPE: {{ .Values.config.msAppType | quote }}
-  MSAPP_ID: {{ .Values.config.msAppId | quote }}
-  MSAPP_TENANT_ID: {{ .Values.config.msAppTenantId | quote }}
-  DEFAULT_NEXTCLOUD_URL: {{ .Values.config.defaultNextcloudUrl | quote }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "sendent-msteams.fullname" . }}-files
-  labels:
-    app.kubernetes.io/name: {{ include "sendent-msteams.name" . }}
-data:
-  {{- range $key, $val := .Values.dockerConfig }}
-  {{ $key }}: {{ $val | indent 4 }}
+  {{- range $key, $value := .Values.config }}
+  {{ $key }}: {{ $value | quote }}
   {{- end }}
