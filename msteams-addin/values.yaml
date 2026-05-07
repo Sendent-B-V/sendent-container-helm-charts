@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: rg.nl-ams.scw.cloud/sendent-public/sendent-msteams
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 4200
+
+# Standard environment variables
+config:
+  baseUrl: "https://yourdomain.com"
+  msAppType: ""
+  msAppId: ""
+  msAppTenantId: ""
+  defaultNextcloudUrl: "https://yournextclouddomain.com"
+
+# Sensitive environment variables
+secret:
+  msAppPassword: "your-password-here"
+
+# Instead of a local ./docker-config folder, define your config files here.
+# They will be mounted to /usr/src/app/docker-config in the container.
+dockerConfig: {}
+  # Example:
+  # config.json: |
+  #   {
+  #     "setting": "value"
+  #   }
