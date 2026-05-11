@@ -1,0 +1,12 @@
+{{- if eq .Values.ingress.className "traefik" -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "sendent-msteams.fullname" . }}-strip-headers
+  labels:
+    {{- include "sendent-msteams.labels" . | nindent 4 }}
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Host: ""
+{{- end }}
