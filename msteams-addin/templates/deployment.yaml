@@ -26,7 +26,7 @@ spec:
           image: alpine:latest
           command: ['sh', '-c']
           args:
-            - "wget -q /shared-certs/cacert.pem https://curl.se/ca/cacert.pem"
+            - "wget -q0 /shared-certs/cacert.pem https://curl.se/ca/cacert.pem"
           volumeMounts:
             - name: shared-ca-certs
               mountPath: /shared-certs
@@ -47,9 +47,6 @@ spec:
           volumeMounts:
             - name: docker-config
               mountPath: /usr/src/app/docker-config
-            - name: tls-cert
-              mountPath: /etc/ssl/custom-cert
-              readOnly: true
             - name: shared-ca-certs
               mountPath: /etc/ssl/modern-certs
           livenessProbe:
@@ -71,12 +68,6 @@ spec:
       volumes:
         - name: docker-config
           emptyDir: {}
-        - name: tls-cert
-          secret:
-            secretName: werk-plek-tls
-            items:
-              - key: tls.crt
-                path: tls.crt
         - name: shared-ca-certs
           emptyDir: {}
       {{- with .Values.nodeSelector }}
