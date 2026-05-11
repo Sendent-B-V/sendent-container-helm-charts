@@ -9,4 +9,5 @@ spec:
   headers:
     customRequestHeaders:
       X-Forwarded-Host: ""
+      sendent-apiurl: {{ .Values.config.DEFAULT_NEXTCLOUD_URL | quote }}
 {{- end }}
