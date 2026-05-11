@@ -36,6 +36,9 @@ spec:
           volumeMounts:
             - name: docker-config
               mountPath: /usr/src/app/docker-config
+            - name: tls-cert
+              mountPath: /etc/ssl/custom-cert
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /manifest.json
@@ -55,6 +58,12 @@ spec:
       volumes:
         - name: docker-config
           emptyDir: {}
+        - name: tls-cert
+          secret:
+            secretName: werk-plek-tls
+            items:
+              - key: tls.crt
+                path: tls.crt
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
