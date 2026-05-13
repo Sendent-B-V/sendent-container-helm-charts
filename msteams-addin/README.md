@@ -17,11 +17,11 @@ Create a file called `my-values.yaml` with your configuration:
 
 ```yaml
 config:
-  BASE_URL: "[https://teams.example.com](https://teams.example.com)"
+  BASE_URL: "https://teams.example.com"
   MSAPP_TYPE: "your-app-type"
   MSAPP_ID: "your-azure-app-id"
   MSAPP_TENANT_ID: "your-azure-tenant-id"
-  DEFAULT_NEXTCLOUD_URL: "[https://nextcloud.example.com](https://nextcloud.example.com)"
+  DEFAULT_NEXTCLOUD_URL: "https://nextcloud.example.com"
 
 secret:
   MSAPP_PASSWORD: "your-secure-password"
@@ -44,7 +44,7 @@ kubectl get pods -l app.kubernetes.io/name=sendent-msteams
 
 You should see your pod(s) in `Running` status.
 
-The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](https://www.google.com/search?q=%23exposing-the-add-in) for how to make it accessible externally.
+The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](.#exposing-the-add-in) for how to make it accessible externally.
 
 ## Configuration
 
