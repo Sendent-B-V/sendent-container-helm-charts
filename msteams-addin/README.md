@@ -44,7 +44,7 @@ kubectl get pods -l app.kubernetes.io/name=sendent-msteams
 
 You should see your pod(s) in `Running` status.
 
-The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](.#exposing-the-add-in) for how to make it accessible externally.
+The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](#exposing-the-add-in) for how to make it accessible externally.
 
 ## Configuration
 
