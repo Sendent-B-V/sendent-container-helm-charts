@@ -20,17 +20,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
-      initContainers:
-        - name: fetch-latest-certs
-          image: alpine:latest
-          command: ['sh', '-c']
-          args:
-            - "wget -O /shared-certs/cacert.pem https://curl.se/ca/cacert.pem"
-          volumeMounts:
-            - name: shared-ca-certs
-              mountPath: /shared-certs
-
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -47,8 +36,6 @@ spec:
           volumeMounts:
             - name: docker-config
               mountPath: /usr/src/app/docker-config
-            - name: shared-ca-certs
-              mountPath: /etc/ssl/modern-certs
           livenessProbe:
             httpGet:
               path: /manifest.json
@@ -67,8 +54,6 @@ spec:
           {{- end }}
       volumes:
         - name: docker-config
-          emptyDir: {}
-        - name: shared-ca-certs
           emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
