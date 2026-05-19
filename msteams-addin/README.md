@@ -1,8 +1,6 @@
-# Unofficial Sendent MS Teams Add-in Helm Chart
+# Sendent MS Teams Add-in Helm Chart
 
 Deploy the Sendent Microsoft Teams Add-in on Kubernetes.
-
-> **Disclaimer:** This Helm chart is an unofficial community project and is **not** created, maintained, or officially supported by the Sendent company.
 
 ## Prerequisites
 
