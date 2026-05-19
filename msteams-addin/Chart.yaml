@@ -1,6 +1,0 @@
-apiVersion: v2
-name: sendent-msteams
-description: Sendent Microsoft Teams Add-in
-type: application
-version: 0.1.0
-appVersion: "latest"
