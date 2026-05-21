@@ -48,14 +48,15 @@ The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](
 
 ### Application Parameters
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `config.BASE_URL` | Public URL where the add-in will be accessible | `"https://teams.yourdomain.com"` |
-| `config.DEFAULT_NEXTCLOUD_URL` | Nextcloud server URL | `"https://nextcloud.yourdomain.com"` |
-| `config.MSAPP_TYPE` | Type of Microsoft App | `""` |
-| `config.MSAPP_ID` | Azure App ID | `"your-app-id"` |
-| `config.MSAPP_TENANT_ID` | Azure Tenant ID | `"your-tenant-id"` |
-| `secret.MSAPP_PASSWORD` | Azure App Client Secret/Password | `"your-secure-password"` |
+| Parameter | Description | Required | Default |
+| --- | --- | --- | --- |
+| `config.BASE_URL` | Public URL where the add-in will be accessible | Yes | `"https://teams.yourdomain.com"` |
+| `config.DEFAULT_NEXTCLOUD_URL` | Default Nextcloud server URL returned to the add-in | No | `"https://nextcloud.yourdomain.com"` |
+| `config.MSAPP_TYPE` | Azure App type: `MultiTenant`, `SingleTenant`, or `UserAssignedMSI`. Leave empty to default to `MultiTenant` | No | `""` |
+| `config.MSAPP_ID` | Azure App (client) ID used for bot authentication and the on-behalf-of token exchange | Yes | `"your-app-id"` |
+| `config.MSAPP_TENANT_ID` | Azure Tenant ID (required for `SingleTenant` apps; ignored otherwise) | Conditional | `"your-tenant-id"` |
+| `config.PROXY_PLACEHOLDER_URL` | Target URL for the `/proxy/*` request proxy. Override when running against a non-default Nextcloud host | No | `""` |
+| `secret.MSAPP_PASSWORD` | Azure App client secret. Stored in a Kubernetes `Secret` | Yes | `"your-secure-password"` |
 
 ### Deployment Parameters
 
