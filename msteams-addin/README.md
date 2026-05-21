@@ -98,12 +98,12 @@ Install them if they are not already present on your cluster:
 
 ```bash
 # Ingress controller
-helm repo add ingress-nginx [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx --create-namespace
 
 # cert-manager
-helm repo add jetstack [https://charts.jetstack.io](https://charts.jetstack.io)
+helm repo add jetstack https://charts.jetstack.io
 helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager --create-namespace \
   --set crds.enabled=true
@@ -120,7 +120,7 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    server: [https://acme-v02.api.letsencrypt.org/directory](https://acme-v02.api.letsencrypt.org/directory)
+    server: https://acme-v02.api.letsencrypt.org/directory
     email: your-email@example.com
     privateKeySecretRef:
       name: letsencrypt-prod
@@ -170,7 +170,7 @@ Adjust `className`, `annotations`, `pathType`, and `tls` to match your cluster's
 If you prefer to manage routing outside of Kubernetes, keep the default `ClusterIP` service and point your existing reverse proxy (e.g., Nginx, Caddy) at the service. You can use `kubectl port-forward` to expose the service locally:
 
 ```bash
-kubectl port-forward svc/sendent-msteams-msteams-addin 4200:4200
+kubectl port-forward svc/sendent-msteams 4200:4200
 
 ```
 
