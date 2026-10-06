@@ -15,8 +15,13 @@ fullnameOverride: ""
 config:
   # REQUIRED: The public URL where this add-in will be accessible
   BASE_URL: ""
-  # REQUIRED: The Nextcloud server URL
+  # REQUIRED: The Nextcloud server URL. Also the proxy allowlist fallback when
+  # PROXY_ALLOWLIST is empty.
   DEFAULT_NEXTCLOUD_URL: ""
+  # Comma-separated hostnames or URLs of the Nextcloud servers the add-in may
+  # reach through the proxy. When empty, only the DEFAULT_NEXTCLOUD_URL host is
+  # allowed; when both are empty, the proxy forwards to any server.
+  PROXY_ALLOWLIST: ""
   # Comma-separated feature codes to disable (e.g. "0,1,2")
   FEATURES_CODES_TO_REMOVE: ""
   # Authentication type: naa_silent, or legacy_exchange

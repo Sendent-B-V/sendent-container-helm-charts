@@ -51,7 +51,8 @@ The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](
 | Parameter | Description | Required | Default |
 | --- | --- | --- | --- |
 | `config.BASE_URL` | Public URL where the add-in will be accessible | Yes | `"https://teams.yourdomain.com"` |
-| `config.DEFAULT_NEXTCLOUD_URL` | Default Nextcloud server URL returned to the add-in | No | `"https://nextcloud.yourdomain.com"` |
+| `config.DEFAULT_NEXTCLOUD_URL` | Default Nextcloud server URL returned to the add-in. Also the proxy allowlist fallback when `PROXY_ALLOWLIST` is empty | No | `"https://nextcloud.yourdomain.com"` |
+| `config.PROXY_ALLOWLIST` | Comma-separated hostnames or URLs of the Nextcloud servers the add-in may reach through the proxy. When empty, only the `DEFAULT_NEXTCLOUD_URL` host is allowed; when both are empty, the proxy forwards to any server | No | `""` |
 | `config.MSAPP_TYPE` | Azure App type: `MultiTenant`, `SingleTenant`, or `UserAssignedMSI`. Leave empty to default to `MultiTenant` | No | `""` |
 | `config.MSAPP_ID` | Azure App (client) ID used for bot authentication and the on-behalf-of token exchange | Yes | `"your-app-id"` |
 | `config.MSAPP_TENANT_ID` | Azure Tenant ID (required for `SingleTenant` apps; ignored otherwise) | Conditional | `"your-tenant-id"` |

@@ -43,7 +43,8 @@ The chart creates a `ClusterIP` service on port 4300. See [Exposing the add-in](
 | Parameter | Description | Required | Default |
 |-----------|-------------|----------|---------|
 | `config.BASE_URL` | Public URL where the add-in will be accessible | Yes | `""` |
-| `config.DEFAULT_NEXTCLOUD_URL` | Nextcloud server URL | Yes | `""` |
+| `config.DEFAULT_NEXTCLOUD_URL` | Nextcloud server URL. Also the proxy allowlist fallback when `PROXY_ALLOWLIST` is empty | Yes | `""` |
+| `config.PROXY_ALLOWLIST` | Comma-separated hostnames or URLs of the Nextcloud servers the add-in may reach through the proxy. When empty, only the `DEFAULT_NEXTCLOUD_URL` host is allowed; when both are empty, the proxy forwards to any server | No | `""` |
 | `config.FEATURES_CODES_TO_REMOVE` | Comma-separated feature codes to disable (e.g. `"0,1,2"`) | No | `""` |
 | `config.MS_AUTH_TYPE` | Authentication type: `legacy_exchange`, `naa`, or `naa_silent` | No | `"legacy_exchange"` |
 | `config.MS_APP_ID` | Azure App ID (required if `MS_AUTH_TYPE` is `naa` or `naa_silent`) | Conditional | `""` |

@@ -18,8 +18,13 @@ config:
   MSAPP_ID: "your-app-id"
   # Azure Tenant ID — required when MSAPP_TYPE is SingleTenant, otherwise ignored
   MSAPP_TENANT_ID: "your-tenant-id"
-  # Default Nextcloud server URL returned to the add-in
+  # Default Nextcloud server URL returned to the add-in. Also the proxy
+  # allowlist fallback when PROXY_ALLOWLIST is empty.
   DEFAULT_NEXTCLOUD_URL: "https://nextcloud.yourdomain.com"
+  # Comma-separated hostnames or URLs of the Nextcloud servers the add-in may
+  # reach through the proxy. When empty, only the DEFAULT_NEXTCLOUD_URL host is
+  # allowed; when both are empty, the proxy forwards to any server.
+  PROXY_ALLOWLIST: ""
   # Fallback target for the /proxy/* request proxy. Normally overridden per-request
   # via the `sendent-apiurl` header; this value is only used when that header is missing.
   PROXY_PLACEHOLDER_URL: "https://placeholder.sendent.dev"
