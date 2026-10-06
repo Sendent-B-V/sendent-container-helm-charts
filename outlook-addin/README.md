@@ -1,6 +1,6 @@
-# Sendent Outlook Add-in Helm Chart
+# Nextcloud for Outlook Helm Chart
 
-Deploy the Sendent Outlook Add-in on Kubernetes.
+Deploy the Nextcloud for Outlook add-in on Kubernetes.
 
 ## Prerequisites
 
@@ -45,7 +45,7 @@ The chart creates a `ClusterIP` service on port 4300. See [Exposing the add-in](
 | `config.BASE_URL` | Public URL where the add-in will be accessible | Yes | `""` |
 | `config.DEFAULT_NEXTCLOUD_URL` | Nextcloud server URL. Also the proxy allowlist fallback when `PROXY_ALLOWLIST` is empty | Yes | `""` |
 | `config.PROXY_ALLOWLIST` | Comma-separated hostnames or URLs of the Nextcloud servers the add-in may reach through the proxy. When empty, only the `DEFAULT_NEXTCLOUD_URL` host is allowed; when both are empty, the proxy forwards to any server | No | `""` |
-| `config.FEATURES_CODES_TO_REMOVE` | Comma-separated feature codes to disable (e.g. `"0,1,2"`) | No | `""` |
+| `config.FEATURES_CODES_TO_REMOVE` | Comma-separated feature codes to disable (e.g. `"0,1,2"`). Code `6` (automatic email signature) requires `MS_AUTH_TYPE` `naa_silent`; under any other auth type it is removed at startup with a notice in the log | No | `""` |
 | `config.MS_AUTH_TYPE` | Authentication type: `legacy_exchange`, `naa`, or `naa_silent` | No | `"legacy_exchange"` |
 | `config.MS_APP_ID` | Azure App ID (required if `MS_AUTH_TYPE` is `naa` or `naa_silent`) | Conditional | `""` |
 | `config.MS_TENANT_ID` | Azure Tenant ID (required for non single-tenant apps) | Conditional | `""` |
@@ -174,6 +174,11 @@ Open `https://outlook.example.com/manifest.xml` in your browser. You should see 
 helm upgrade sendent-outlook ./outlook-addin -f my-values.yaml
 ```
 
+### Upgrading to 3.0.0
+
+- The add-in now only reaches the Nextcloud servers in `config.PROXY_ALLOWLIST`, or the `config.DEFAULT_NEXTCLOUD_URL` host when the allowlist is empty. Add every Nextcloud server your users sign in to before upgrading. Sign-in to any other server fails with "Forbidden: Target URL is not in the allowlist".
+- 3.0.0 serves a new manifest: the add-in is renamed to Nextcloud for Outlook and gains the automatic email signature. The manifest you deployed keeps working, but users only get these changes after you redeploy it from `https://outlook.example.com/manifest.xml`. Microsoft 365 can take up to 48 hours to roll it out.
+
 ## Uninstalling
 
 ```bash
@@ -193,4 +198,6 @@ kubectl describe pod -l app.kubernetes.io/name=outlook-addin
 kubectl logs -l app.kubernetes.io/name=outlook-addin
 ```
 
-If your pods are in `CrashLoopBackOff`, check the logs for configuration errors. The most common issues are missing `BASE_URL` or authentication configuration parameters.
+If your pods are in `CrashLoopBackOff`, check the logs for configuration errors. The most common issues are missing `BASE_URL` or authentication configuration parameters. An entry in `PROXY_ALLOWLIST` that is not a valid hostname or URL also stops the pod at startup.
+
+If users see "Forbidden: Target URL is not in the allowlist" when they sign in, their Nextcloud server is missing from `config.PROXY_ALLOWLIST`. The pod logs list the allowed hosts at startup under `PROXY_ALLOWLIST:`.

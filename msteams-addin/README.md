@@ -1,6 +1,6 @@
-# Sendent MS Teams Add-in Helm Chart
+# Nextcloud for MS Teams Helm Chart
 
-Deploy the Sendent Microsoft Teams Add-in on Kubernetes.
+Deploy the Nextcloud for MS Teams add-in on Kubernetes.
 
 ## Prerequisites
 
@@ -212,6 +212,12 @@ helm upgrade sendent-msteams ./msteams-addin -f my-values.yaml
 
 ```
 
+### Upgrading to 3.0.0
+
+- The add-in now only reaches the Nextcloud servers in `config.PROXY_ALLOWLIST`, or the `config.DEFAULT_NEXTCLOUD_URL` host when the allowlist is empty. Add every Nextcloud server your users sign in to before upgrading. Sign-in to any other server fails with "Forbidden: Target URL is not in the allowlist".
+- The chart default for `config.DEFAULT_NEXTCLOUD_URL` is now empty instead of `https://nextcloud.yourdomain.com`. If you never set it, the login field now starts empty instead of showing that placeholder.
+- 3.0.0 renames the app to Nextcloud for MS Teams and ships new icons. Your current Teams app keeps working, but users only see the new name and icons after you upload a new app package built with the manifest from `https://teams.example.com/manifest.json`. See [How to download and modify your manifest.json file](https://help.sendent.com/nextcloud-for-ms-teams/how-to-download-and-modify-your-manifest-json-file).
+
 ## Uninstalling
 
 ```bash
@@ -233,4 +239,6 @@ kubectl logs -l app.kubernetes.io/name=sendent-msteams
 
 ```
 
-If your pods are in `CrashLoopBackOff`, check the logs for configuration errors. The most common issues are missing `BASE_URL` or authentication configuration parameters.
+If your pods are in `CrashLoopBackOff`, check the logs for configuration errors. The most common issues are missing `BASE_URL` or authentication configuration parameters. An entry in `PROXY_ALLOWLIST` that is not a valid hostname or URL also stops the pod at startup.
+
+If users see "Forbidden: Target URL is not in the allowlist" when they sign in, their Nextcloud server is missing from `config.PROXY_ALLOWLIST`. The pod logs list the allowed hosts at startup under `PROXY_ALLOWLIST:`.
