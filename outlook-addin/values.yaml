@@ -3,8 +3,8 @@ replicaCount: 1
 image:
   repository: rg.nl-ams.scw.cloud/sendent-public/sendent-outlook
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is "latest"
-  tag: "latest"
+  # Overrides the image tag whose default is the chart appVersion
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""

@@ -58,7 +58,7 @@ The chart creates a `ClusterIP` service on port 4300. See [Exposing the add-in](
 |-----------|-------------|---------|
 | `replicaCount` | Number of replicas | `1` |
 | `image.repository` | Container image repository | `rg.nl-ams.scw.cloud/sendent-public/sendent-outlook` |
-| `image.tag` | Container image tag | `"latest"` |
+| `image.tag` | Container image tag. When empty, the chart's `appVersion` is used | `""` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Service port | `4300` |
@@ -176,6 +176,7 @@ helm upgrade sendent-outlook ./outlook-addin -f my-values.yaml
 
 ### Upgrading to 3.0.0
 
+- Chart 1.0.0 installs add-in version 3.0.0 instead of `latest`: the image tag now defaults to the chart's `appVersion`, so `helm upgrade` rolls out the new version. To stay on an older version, set `image.tag`, for example `2.6.1`.
 - The add-in now only reaches the Nextcloud servers in `config.PROXY_ALLOWLIST`, or the `config.DEFAULT_NEXTCLOUD_URL` host when the allowlist is empty. Add every Nextcloud server your users sign in to before upgrading. Sign-in to any other server fails with "Forbidden: Target URL is not in the allowlist".
 - 3.0.0 serves a new manifest: the add-in is renamed to Nextcloud for Outlook and gains the automatic email signature. The manifest you deployed keeps working, but users only get these changes after you redeploy it from `https://outlook.example.com/manifest.xml`. Microsoft 365 can take up to 48 hours to roll it out.
 

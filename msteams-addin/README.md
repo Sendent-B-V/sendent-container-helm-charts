@@ -67,7 +67,7 @@ The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](
 | --- | --- | --- |
 | `replicaCount` | Number of replicas | `1` |
 | `image.repository` | Container image repository | `rg.nl-ams.scw.cloud/sendent-public/sendent-msteams` |
-| `image.tag` | Container image tag | `"latest"` |
+| `image.tag` | Container image tag. When empty, the chart's `appVersion` is used | `""` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Service port | `4200` |
@@ -214,6 +214,7 @@ helm upgrade sendent-msteams ./msteams-addin -f my-values.yaml
 
 ### Upgrading to 3.0.0
 
+- Chart 1.0.0 installs add-in version 3.0.0 instead of `latest`: the image tag now defaults to the chart's `appVersion`, so `helm upgrade` rolls out the new version. To stay on an older version, set `image.tag`, for example `2.2.2`.
 - The add-in now only reaches the Nextcloud servers in `config.PROXY_ALLOWLIST`, or the `config.DEFAULT_NEXTCLOUD_URL` host when the allowlist is empty. Add every Nextcloud server your users sign in to before upgrading. Sign-in to any other server fails with "Forbidden: Target URL is not in the allowlist".
 - The chart default for `config.DEFAULT_NEXTCLOUD_URL` is now empty instead of `https://nextcloud.yourdomain.com`. If you never set it, the login field now starts empty instead of showing that placeholder.
 - 3.0.0 renames the app to Nextcloud for MS Teams and ships new icons. Your current Teams app keeps working, but users only see the new name and icons after you upload a new app package built with the manifest from `https://teams.example.com/manifest.json`. See [How to download and modify your manifest.json file](https://help.sendent.com/nextcloud-for-ms-teams/how-to-download-and-modify-your-manifest-json-file).
