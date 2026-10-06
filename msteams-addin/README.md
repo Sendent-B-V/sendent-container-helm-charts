@@ -1,6 +1,6 @@
-# Sendent MS Teams Add-in Helm Chart
+# Nextcloud for MS Teams Helm Chart
 
-Deploy the Sendent Microsoft Teams Add-in on Kubernetes.
+Deploy the Nextcloud for MS Teams add-in on Kubernetes.
 
 ## Prerequisites
 
@@ -51,7 +51,8 @@ The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](
 | Parameter | Description | Required | Default |
 | --- | --- | --- | --- |
 | `config.BASE_URL` | Public URL where the add-in will be accessible | Yes | `"https://teams.yourdomain.com"` |
-| `config.DEFAULT_NEXTCLOUD_URL` | Default Nextcloud server URL returned to the add-in | No | `"https://nextcloud.yourdomain.com"` |
+| `config.DEFAULT_NEXTCLOUD_URL` | Default Nextcloud server URL returned to the add-in. Also the proxy allowlist fallback when `PROXY_ALLOWLIST` is empty | No | `""` |
+| `config.PROXY_ALLOWLIST` | Comma-separated hostnames or URLs of the Nextcloud servers the add-in may reach through the proxy. When empty, only the `DEFAULT_NEXTCLOUD_URL` host is allowed; when both are empty, the proxy forwards to any server | No | `""` |
 | `config.MSAPP_TYPE` | Azure App type: `MultiTenant`, `SingleTenant`, or `UserAssignedMSI`. Leave empty to default to `MultiTenant` | No | `""` |
 | `config.MSAPP_ID` | Azure App (client) ID used for bot authentication and the on-behalf-of token exchange | Yes | `"your-app-id"` |
 | `config.MSAPP_TENANT_ID` | Azure Tenant ID (required for `SingleTenant` apps; ignored otherwise) | Conditional | `"your-tenant-id"` |
@@ -66,7 +67,7 @@ The chart creates a `ClusterIP` service on port 4200. See [Exposing the add-in](
 | --- | --- | --- |
 | `replicaCount` | Number of replicas | `1` |
 | `image.repository` | Container image repository | `rg.nl-ams.scw.cloud/sendent-public/sendent-msteams` |
-| `image.tag` | Container image tag | `"latest"` |
+| `image.tag` | Container image tag. When empty, the chart's `appVersion` is used | `""` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Service port | `4200` |
@@ -211,6 +212,13 @@ helm upgrade sendent-msteams ./msteams-addin -f my-values.yaml
 
 ```
 
+### Upgrading to 3.0.0
+
+- Chart 1.0.0 installs add-in version 3.0.0 instead of `latest`: the image tag now defaults to the chart's `appVersion`, so `helm upgrade` rolls out the new version. To stay on an older version, set `image.tag`, for example `2.2.2`.
+- The add-in now only reaches the Nextcloud servers in `config.PROXY_ALLOWLIST`, or the `config.DEFAULT_NEXTCLOUD_URL` host when the allowlist is empty. Add every Nextcloud server your users sign in to before upgrading. Sign-in to any other server fails with "Forbidden: Target URL is not in the allowlist".
+- The chart default for `config.DEFAULT_NEXTCLOUD_URL` is now empty instead of `https://nextcloud.yourdomain.com`. If you never set it, the login field now starts empty instead of showing that placeholder.
+- 3.0.0 renames the app to Nextcloud for MS Teams and ships new icons. Your current Teams app keeps working, but users only see the new name and icons after you upload a new app package built with the manifest from `https://teams.example.com/manifest.json`. See [How to download and modify your manifest.json file](https://help.sendent.com/nextcloud-for-ms-teams/how-to-download-and-modify-your-manifest-json-file).
+
 ## Uninstalling
 
 ```bash
@@ -232,4 +240,6 @@ kubectl logs -l app.kubernetes.io/name=sendent-msteams
 
 ```
 
-If your pods are in `CrashLoopBackOff`, check the logs for configuration errors. The most common issues are missing `BASE_URL` or authentication configuration parameters.
+If your pods are in `CrashLoopBackOff`, check the logs for configuration errors. The most common issues are missing `BASE_URL` or authentication configuration parameters. An entry in `PROXY_ALLOWLIST` that is not a valid hostname or URL also stops the pod at startup.
+
+If users see "Forbidden: Target URL is not in the allowlist" when they sign in, their Nextcloud server is missing from `config.PROXY_ALLOWLIST`. The pod logs list the allowed hosts at startup under `PROXY_ALLOWLIST:`.

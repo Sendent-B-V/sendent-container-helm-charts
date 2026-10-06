@@ -4,10 +4,10 @@ This repository contains Helm charts for the Sendent applications.
 
 ## Charts
 
-| Chart                              | Description                                                               |
-|------------------------------------|---------------------------------------------------------------------------|
-| [outlook-addin](./outlook-addin/)  | Sendent Outlook Add-in - Nextcloud integration for Microsoft Outlook      |
-| [ms-teams-addin](./msteats-addin/) | Sendent Microsoft Teams Add-in - Nextcloud integration of Microsoft Teams |
+| Chart                             | Description                                                         |
+|-----------------------------------|---------------------------------------------------------------------|
+| [outlook-addin](./outlook-addin/) | Nextcloud for Outlook - Nextcloud integration for Microsoft Outlook |
+| [msteams-addin](./msteams-addin/) | Nextcloud for MS Teams - Nextcloud integration for Microsoft Teams  |
 
 ## Usage
 
