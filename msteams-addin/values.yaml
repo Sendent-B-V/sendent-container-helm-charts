@@ -20,7 +20,7 @@ config:
   MSAPP_TENANT_ID: "your-tenant-id"
   # Default Nextcloud server URL returned to the add-in. Also the proxy
   # allowlist fallback when PROXY_ALLOWLIST is empty.
-  DEFAULT_NEXTCLOUD_URL: "https://nextcloud.yourdomain.com"
+  DEFAULT_NEXTCLOUD_URL: ""
   # Comma-separated hostnames or URLs of the Nextcloud servers the add-in may
   # reach through the proxy. When empty, only the DEFAULT_NEXTCLOUD_URL host is
   # allowed; when both are empty, the proxy forwards to any server.
