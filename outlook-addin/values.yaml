@@ -3,8 +3,8 @@ replicaCount: 1
 image:
   repository: rg.nl-ams.scw.cloud/sendent-public/sendent-outlook
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is "latest"
-  tag: "latest"
+  # Overrides the image tag whose default is the chart appVersion
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -15,13 +15,20 @@ fullnameOverride: ""
 config:
   # REQUIRED: The public URL where this add-in will be accessible
   BASE_URL: ""
-  # REQUIRED: The Nextcloud server URL
+  # REQUIRED: The Nextcloud server URL. Also the proxy allowlist fallback when
+  # PROXY_ALLOWLIST is empty.
   DEFAULT_NEXTCLOUD_URL: ""
-  # Comma-separated feature codes to disable (e.g. "0,1,2")
+  # Comma-separated hostnames or URLs of the Nextcloud servers the add-in may
+  # reach through the proxy. When empty, only the DEFAULT_NEXTCLOUD_URL host is
+  # allowed; when both are empty, the proxy forwards to any server.
+  PROXY_ALLOWLIST: ""
+  # Comma-separated feature codes to disable (e.g. "0,1,2").
+  # 6 (signature) requires MS_AUTH_TYPE naa_silent; under any other auth type it
+  # is removed at startup, which logs a notice unless it is listed here.
   FEATURES_CODES_TO_REMOVE: ""
-  # Authentication type: naa_silent, or legacy_exchange
+  # Authentication type: naa_silent, naa, or legacy_exchange
   MS_AUTH_TYPE: "legacy_exchange"
-  # Azure App ID — required if MS_AUTH_TYPE is naa_silent
+  # Azure App ID, required if MS_AUTH_TYPE is naa or naa_silent
   MS_APP_ID: ""
   # Azure Tenant ID — required for non single-tenant apps
   MS_TENANT_ID: ""
